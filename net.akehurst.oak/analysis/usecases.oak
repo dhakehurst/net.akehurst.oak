@@ -1,0 +1,12 @@
+namespace oak.usecases {
+
+	usecase 'View Product Status' {
+	}
+
+	usecase 'Develop Product' {
+	}
+
+	usecase 'Build Product' {
+	}
+
+}
