@@ -15,16 +15,34 @@
  */
 package net.akehurst.oak.computational.core;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import net.akehurst.application.framework.common.annotations.instance.CommandLineArgument;
+import net.akehurst.application.framework.common.annotations.instance.CommandLineGroup;
+import net.akehurst.application.framework.realisation.AbstractActiveObject;
 import net.akehurst.application.framework.realisation.AbstractComponent;
+import net.akehurst.application.framework.realisation.AbstractIdentifiableObject;
+import net.akehurst.application.framework.technology.interfaceLogging.LogLevel;
 
-public class CommandExecutor extends AbstractComponent {
+public class ComandExecutor extends AbstractActiveObject implements ICommandExecutor {
 
-	public CommandExecutor(String id) {
+	public ComandExecutor(String id) {
 		super(id);
 	}
 
 	
 	public void execute(CommandIdentity command) {
+		
+		super.logger.log(LogLevel.INFO, "Executing command "+command.asPrimitive()+" with arguments ");
+		
+	}
+
+
+	@Override
+	public void afRun() {
+		// TODO Auto-generated method stub
 		
 	}
 	

@@ -41,6 +41,10 @@ distributions {
 }
 
 tasks.startScripts {
-	applicationName = 'desktop'
-	defaultJvmOpts = ['-Dlog4j.configurationFile=${APP_HOME}/conf/log4j2.xml']
+	applicationName = 'oak-gui'
+	defaultJvmOpts = ['-Dlog4j.configurationFile=X_APP_HOME/conf/log4j2.xml']
+	doLast {
+		unixScript.text = unixScript.text.replace('X_APP_HOME', '\${APP_HOME}') 
+		windowsScript.text = windowsScript.text.replace('X_APP_HOME', '%~dp0..')
+	}
 }

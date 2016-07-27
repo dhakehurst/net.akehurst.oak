@@ -29,8 +29,8 @@ public class GuiToTech extends AbstractComponent {
 		super(id);
 	}
 	
-	@ProvidesInterfaceForPort(portId="portTech",provides=IGuiNotification.class)
 	@ActiveObjectInstance
+	@ProvidesInterfaceForPort(portId="portTech",provides=IGuiNotification.class)
 	GuiHandler handler;
 	
 	@Override

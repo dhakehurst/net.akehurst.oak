@@ -22,5 +22,7 @@ dependencies {
 	compile "${afPrefix}.technology.interfaceGui:${afVersion}"
 	compile "${afPrefix}.technology.gui.common:${afVersion}"
 
-
+	compile "org.dockfx:ClearControl:+"
+	compile 'org.controlsfx:controlsfx:+'
+	compile 'org.fxmisc.richtext:richtextfx:+'
 }
