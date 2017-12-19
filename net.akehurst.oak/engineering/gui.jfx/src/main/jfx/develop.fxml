@@ -35,12 +35,12 @@
 
 <GridPane alignment="CENTER" hgap="10.0" vgap="10.0"
 	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
-	
-	
+
+
 	<stylesheets>
 		<URL value="@/org/dockfx/default.css" />
 	</stylesheets>
-	
+
 	<padding>
 		<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
 	</padding>
@@ -53,38 +53,53 @@
 		<RowConstraints />
 	</rowConstraints>
 
-	<BorderPane prefHeight="400.0" prefWidth="600.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-	    <top>
-            <MenuBar BorderPane.alignment="CENTER">
-              <menus>
-                <Menu mnemonicParsing="false" text="File">
-
-                    <MenuItem mnemonicParsing="false" text="Close" />
-
-                </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
-
-                    <MenuItem mnemonicParsing="false" text="Delete" />
-
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-
-                    <MenuItem mnemonicParsing="false" text="About" />
-
-                </Menu>
-              </menus>
-            </MenuBar>
-         </top>
-         <center>
+	<BorderPane prefHeight="600.0" prefWidth="1000.0"
+		GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+		<top>
+			<MenuBar BorderPane.alignment="CENTER">
+				<menus>
+					<Menu mnemonicParsing="false" text="Help">
+						<MenuItem mnemonicParsing="false" text="About" />
+					</Menu>
+				</menus>
+			</MenuBar>
+		</top>
+		<center>
 			<SplitPane orientation="HORIZONTAL" dividerPositions="0.2">
-				<ScrollPane >
-					<TreeView fx:id="browserTreeView">
+				<ScrollPane>
+					<TreeView fx:id="treeViewBrowser">
 						<contextMenu>
 							<ContextMenu fx:id="contextMenu">
 								<items>
-									<Menu text="Workspace">
-										<MenuItem fx:id="switch" text="Switch" />
-										<MenuItem fx:id="newProject" text="New Project" />
+									<Menu fx:id="menuWorkspace" text="Workspace">
+										<MenuItem fx:id="menuWorkspaceSwitch" text="Switch" />
+										<MenuItem fx:id="menuWorkspaceNewProject" text="New Project" />
+									</Menu>
+									<Menu fx:id="menuProject" text="Project">
+										<MenuItem fx:id="menuProjectEdit" text="Edit" />
+										<MenuItem fx:id="menuProjectNewModule" text="New Module" />
+										<SeparatorMenuItem />
+										<MenuItem fx:id="menuProjectBuild" text="Build" />
+										<MenuItem fx:id="menuProjectTest" text="Test" />
+										<MenuItem fx:id="menuProjectInstall" text="Install" />
+										<MenuItem fx:id="menuProjectPublish" text="Publish" />
+										<MenuItem fx:id="menuProjectExecute" text="Execute" />
+									</Menu>
+									<Menu fx:id="menuModule" text="Module">
+										<MenuItem fx:id="menuModuleEdit" text="Edit" />
+
+										<SeparatorMenuItem />
+										<MenuItem fx:id="menuModuleBuild" text="Build" />
+										<MenuItem fx:id="menuModuleTet" text="Test" />
+										<MenuItem fx:id="menuModuleInstall" text="Install" />
+										<MenuItem fx:id="menuModulePublish" text="Publish" />
+										<MenuItem fx:id="menuModuleExecute" text="Execute" />
+									</Menu>
+									<Menu fx:id="menuFile" text="File">
+										<MenuItem fx:id="menuFileEdit" text="Edit" />
+										<MenuItem fx:id="menuModuleNewDirectory" text="New Directory" />
+										<MenuItem fx:id="menuModuleNewFile" text="New File" />
+										<SeparatorMenuItem />
 									</Menu>
 								</items>
 							</ContextMenu>
@@ -92,8 +107,8 @@
 					</TreeView>
 				</ScrollPane>
 				<TabPane fx:id="editors">
-					<Tab >
-						<StyleClassedTextArea ></StyleClassedTextArea>
+					<Tab>
+						<StyleClassedTextArea></StyleClassedTextArea>
 					</Tab>
 				</TabPane>
 			</SplitPane>

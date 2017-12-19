@@ -1,0 +1,13 @@
+test {
+
+  test-component User user
+  component Greeter sut
+
+  scenario start {
+  
+    user -- start --> sut
+    shut -- greeting('Hello World') --> user
+
+  }
+
+}

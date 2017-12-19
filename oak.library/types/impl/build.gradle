@@ -1,0 +1,7 @@
+//dependencies {
+
+//    compile project(":oak.library.types.api")
+    
+//   	testCompile project(":oak.library.platform.jdk_1_8")
+
+//}

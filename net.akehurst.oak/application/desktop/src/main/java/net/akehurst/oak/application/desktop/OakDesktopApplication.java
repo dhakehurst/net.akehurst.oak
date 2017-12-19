@@ -18,37 +18,43 @@ package net.akehurst.oak.application.desktop;
 import net.akehurst.application.framework.common.annotations.instance.ComponentInstance;
 import net.akehurst.application.framework.common.annotations.instance.ServiceInstance;
 import net.akehurst.application.framework.realisation.AbstractApplication;
+import net.akehurst.application.framework.service.configuration.file.HJsonConfigurationService;
 import net.akehurst.application.framework.technology.filesystem.StandardFilesystem;
 import net.akehurst.application.framework.technology.gui.jfx.JfxWindow;
 import net.akehurst.application.framework.technology.log4j.Log4JLogger;
-import net.akehurst.application.framework.technology.persistence.filesystem.HJsonFile;
+import net.akehurst.oak.computational.core.Oak;
 import net.akehurst.oak.engineering.gui.ide.GuiToTech;
 
 public class OakDesktopApplication extends AbstractApplication {
 
-	public OakDesktopApplication(String id, String[] args) {
-		super(id, args);
+	public OakDesktopApplication(final String id) {
+		super(id);
 	}
 
+	// --- Services ---
 	@ServiceInstance
 	Log4JLogger logger;
-	
+
 	@ServiceInstance
 	StandardFilesystem fs;
-	
+
 	@ServiceInstance
-	HJsonFile configuration;
-	
-	
+	HJsonConfigurationService configuration;
+
+	// --- Components ---
+	@ComponentInstance
+	Oak oak;
+
 	@ComponentInstance
 	GuiToTech gui;
-	
+
 	@ComponentInstance
 	JfxWindow jfx;
-	
-	
+
 	@Override
-	public void connectEngineeringToTechnology() {
-		this.gui.portTech().connect( this.jfx.portGui() );
+	public void afConnectParts() {
+		this.oak.portUser().connect(this.gui.portUser());
+
+		this.gui.portTech().connect(this.jfx.portGui());
 	}
 }

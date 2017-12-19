@@ -17,7 +17,6 @@ package net.akehurst.oak.application.console;
 
 import net.akehurst.application.framework.common.annotations.declaration.Application;
 import net.akehurst.application.framework.common.annotations.instance.ActiveObjectInstance;
-import net.akehurst.application.framework.common.annotations.instance.ComponentInstance;
 import net.akehurst.application.framework.common.annotations.instance.ServiceInstance;
 import net.akehurst.application.framework.realisation.AbstractApplication;
 import net.akehurst.application.framework.technology.filesystem.StandardFilesystem;
@@ -28,28 +27,27 @@ import net.akehurst.oak.computational.core.ComandExecutor;
 @Application
 public class OakConsoleApplication extends AbstractApplication {
 
-	public OakConsoleApplication(String id, String[] args) {
-		super(id, args);
+	public OakConsoleApplication(final String id) {
+		super(id);
 	}
 
 	@ServiceInstance
 	Log4JLogger logger;
-	
+
 	@ServiceInstance
 	StandardFilesystem fs;
-	
+
 	@ServiceInstance
 	HJsonFile configuration;
-	
-	
+
 	@ActiveObjectInstance
 	ComandLineInterpreter clInterpreter;
-	
+
 	@ActiveObjectInstance
 	ComandExecutor executor;
-	
+
 	@Override
-	public void connectComputationalToEngineering() {
+	public void afConnectParts() {
 		this.clInterpreter.executor = this.executor;
 	}
 }

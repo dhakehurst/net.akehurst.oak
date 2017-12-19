@@ -1,0 +1,17 @@
+test Boolean {
+
+  construct_true() {
+    value : IBoolean = true
+
+    assert value
+  }
+
+  construct_false() {
+    value : IBoolean = false
+
+    assert not value
+  }
+
+
+
+}

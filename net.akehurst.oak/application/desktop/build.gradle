@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+plugins {
+  id "edu.sc.seis.macAppBundle" version "2.1.9"
+}
 apply plugin: 'java'
 apply plugin: 'osgi'
 apply plugin: 'application'
@@ -23,10 +26,14 @@ mainClassName = "net.akehurst.oak.application.desktop.OakDesktopMain"
 
 
 dependencies {
+	// --- services
+	compile "${af}.service.configuration.file:${afVersion}"
 
-	compile "${afPrefix}.technology.gui.javafx:${afVersion}"
+	compile "${af}.technology.gui.javafx:${afVersion}"
 
+	compile project(":${rootProject.name}.computational.core")
 	compile project(":${rootProject.name}.engineering.gui.ide")
+	compile project(":${rootProject.name}.engineering.gui.jfx")
 
 }
 
@@ -47,4 +54,12 @@ tasks.startScripts {
 		unixScript.text = unixScript.text.replace('X_APP_HOME', '\${APP_HOME}') 
 		windowsScript.text = windowsScript.text.replace('X_APP_HOME', '%~dp0..')
 	}
+}
+
+macAppBundle {
+    mainClassName = "net.akehurst.oak.application.desktop.OakDesktopMain"
+    appName = "oak-gui"
+    jvmVersion = "1.8+"
+    //icon = "myIcon.icns"
+    //backgroundImage = "doc/macbackground.png"
 }

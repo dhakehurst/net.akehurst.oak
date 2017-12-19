@@ -1,0 +1,42 @@
+apply plugin: 'jvm-component'
+apply plugin: 'java-lang'
+apply plugin: 'cpp'
+apply plugin: 'c'
+
+model {
+	components {
+		java(JvmLibrarySpec) {
+			
+		}
+		cpp(NativeLibrarySpec) {
+            baseName = "${project.name}"
+			sources {
+				cpp {
+	                exportedHeaders {
+	                    srcDir "src/main/cpp/header"
+	                    include "**/*.hpp"
+	                }
+	                source {
+	                    srcDir "src/main/cpp/source"
+	                    include "**/*.cpp"
+	                }
+				}
+			}
+        }
+		c(NativeLibrarySpec) {
+            baseName = "${project.name}"
+			sources {
+				c {
+	                exportedHeaders {
+	                    srcDir "src/main/c/header"
+	                    include "**/*.h"
+	                }
+	                source {
+	                    srcDir "src/main/c/source"
+	                    include "**/*.c"
+	                }
+				}
+			}
+        }
+    }
+}

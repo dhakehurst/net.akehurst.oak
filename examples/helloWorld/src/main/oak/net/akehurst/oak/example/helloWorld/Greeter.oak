@@ -1,0 +1,9 @@
+component {
+
+  port user : User
+
+  object handler : UserHandler
+
+  connect-internal user <-> handler
+
+}

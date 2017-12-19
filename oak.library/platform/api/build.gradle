@@ -1,0 +1,13 @@
+
+model {
+	components {
+		java(JvmLibrarySpec) {
+			
+		}
+		cpp(NativeLibrarySpec) {
+
+        }
+		c(NativeLibrarySpec) {
+        }
+    }
+}

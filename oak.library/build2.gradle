@@ -1,0 +1,194 @@
+/**
+ * Copyright (C) 2018 Dr. David H. Akehurst (http://dr.david.h.akehurst.net)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin:'base'
+
+subprojects {
+
+	apply plugin: 'java'
+	apply plugin: 'maven-publish'
+	apply plugin: 'checkstyle'
+    apply plugin: 'c'
+    apply plugin: 'cpp'
+
+	group '${rootProject.name}'
+	version '0.0.1'
+
+	sourceCompatibility = '1.8'
+	targetCompatibility = '1.8'
+
+	task sourceJar(type: Jar) {
+	    from sourceSets.main.allJava
+	}
+
+	publishing {
+	    publications {
+	        mavenJava(MavenPublication) {
+	        		groupId "${group}"
+	        		artifactId "${project.name}"
+				version "${version}"
+	        
+	            from components.java
+	            artifact sourceJar {
+	                classifier "sources"
+	            }
+	        }
+	    }
+	}
+
+	repositories {
+		mavenCentral()
+    		mavenLocal()
+    		jcenter()
+	}
+
+	dependencies {
+       	testCompile 'junit:junit:+'
+	}
+
+    checkstyle {
+        configDir = rootProject.file("src/checkstyle")
+        toolVersion = '8.5'
+        configProperties = [
+			'configDir': rootProject.file('src/checkstyle'),
+			'baseDir': rootDir,
+		]
+    }
+
+// --- C/CPP ---
+
+  model {
+    components {
+        main(NativeLibrarySpec) {
+            baseName = "${project.name}"
+			sources {
+				c {
+	                exportedHeaders {
+	                    srcDir "src/main/c/header"
+	                    include "**/*.h"
+	                }
+	                source {
+	                    srcDir "src/main/c/source"
+	                    include "**/*.c"
+	                }
+				}
+				cpp {
+	                exportedHeaders {
+	                    srcDir "src/main/cpp/header"
+	                    include "**/*.hpp"
+	                }
+	                source {
+	                    srcDir "src/main/cpp/source"
+	                    include "**/*.cpp"
+	                }
+				}
+			}
+        }
+    }
+ //   testSuites {
+ //      moduleTest(CUnitTestSuitSpec) {
+ //           testing $.components.module
+ //       }
+ //   }
+
+
+  }
+  
+//------------- 
+publishing {
+	publications {
+		lib(MavenPublication) {
+			configurations.compile.dependencies.all { dep ->
+				pom.withXml {
+					def depNode = asNode().appendNode('dependencies').appendNode('dependency')
+					depNode.appendNode('groupId',dep.group)
+					depNode.appendNode('artifactId',dep.name)
+					depNode.appendNode('version',dep.version)
+				}
+			}
+		}
+	}
+}
+
+
+
+	configurations {
+		header
+		source
+		binary
+	}
+	
+
+	
+	model {
+		repositories {
+			configurations.compile.dependencies.all { dep ->
+				lib(PrebuiltLibraries).create(
+					dep.name, {
+						header.srcDir "${buildDir}/dependencies/headers/${dep.name}/include"
+						binaries.withType(StaticLibraryBinary) { bin ->
+							def binVariant = "${bin.targetPlatform.name}-${bin.flavor.name}-${bin.buildType.name}"
+							def expectedLibName = OperatingSystem.forName(bin.targetPlatform.name).getStaticLibraryName(dep.name)					
+							staticLibraryFile = file("${buildDir}/dependencies/binaries/${binVariant}/${expectedLibName}")
+						}
+						binaries.withType(SharedLibraryBinary) { bin ->
+							def binVariant = "${bin.targetPlatform.name}-${bin.flavor.name}-${bin.buildType.name}"
+							def expectedLibName = OperatingSystem.forName(bin.targetPlatform.name).getSharedLibraryName(dep.name)
+							sharedLibraryFile = file("${buildDir}/dependencies/binaries/${binVariant}/${expectedLibName}")
+							if (expectedLibName.endsWith('.dll')) {
+								sharedLibraryLinkFile = file("${buildDir}/dependencies/binaries/${binVariant}/${expectedLibName}_lib")
+							}
+						}
+					}
+				)
+			}
+		}
+	}
+  
+  
+	task sourceZip(type: Zip) {
+		from { sources*.source*.files.flatten() }
+		destinationDir = project.buildDir
+		baseName = project.name
+		version = project.version
+		classifier = 'source'
+		into 'src'
+	}
+	
+	task headerZip(type:Zip) {
+	println sourceSets.main.all
+		from( { sources*.exportedHeaders*.files.flatten() }, {into "include"})
+		destinationDir = project.buildDir
+		baseName = project.name
+		version = project.version
+		classifier = 'headers'
+	
+	}
+
+	artifacts {
+		header headerZip
+		source sourceZip
+//		binary
+	}
+
+	
+	task artifacts() << {
+		publishing.publications.lib.artifacts.each {
+			println it
+		}
+	}
+  
+}

@@ -1,12 +1,21 @@
 package net.akehurst.oak.engineering.gui.ide;
 
-import net.akehurst.application.framework.technology.guiInterface.IGuiScene;
-import net.akehurst.application.framework.technology.guiInterface.elements.IChart;
-import net.akehurst.application.framework.technology.guiInterface.elements.IGuiElement;
-import net.akehurst.application.framework.technology.guiInterface.elements.IGuiMenuItem;
+import net.akehurst.application.framework.technology.interfaceGui.IGuiScene;
+import net.akehurst.application.framework.technology.interfaceGui.data.tree.IGuiTreeView;
+import net.akehurst.application.framework.technology.interfaceGui.elements.IGuiMenuItem;
 
 public interface IIdeScene extends IGuiScene {
 
-	IGuiMenuItem getSwitch();
-	
+	// --- Context Menu ---
+	IGuiMenuItem getMenuWorkspaceSwitch();
+
+	IGuiMenuItem getMenuWorkspaceNewProject();
+
+	IGuiMenuItem getMenuProject();
+
+	IGuiMenuItem getMenuModule();
+
+	// --- ---
+
+	IGuiTreeView<Object> getTreeViewBrowser();
 }

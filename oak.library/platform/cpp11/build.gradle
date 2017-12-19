@@ -1,0 +1,25 @@
+
+
+model {
+	components {
+		cpp(NativeLibrarySpec)  {
+			sources {
+                
+				cpp {
+	                lib project: ':oak.library.platform.api', library: 'cpp'
+				}
+			}
+        }
+    }
+    
+    testSuites {
+		cppTest {
+			sources {
+				cpp {
+
+				}
+			}
+		}
+    }
+}
+

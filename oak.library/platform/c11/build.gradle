@@ -1,0 +1,21 @@
+model {
+	components {
+		c(NativeLibrarySpec)  {
+			sources {
+				c {
+	                lib project: ':oak.library.platform.api', library: 'c'
+				}
+			}
+        }
+    }
+    
+    testSuites {
+		cTest {
+			sources {
+				c {
+
+				}
+			}
+		}
+    }
+}

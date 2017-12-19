@@ -15,35 +15,64 @@
  */
 package net.akehurst.oak.computational.core;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import net.akehurst.application.framework.common.annotations.instance.CommandLineArgument;
-import net.akehurst.application.framework.common.annotations.instance.CommandLineGroup;
+import net.akehurst.application.framework.common.annotations.instance.ServiceReference;
+import net.akehurst.application.framework.common.property.Property;
 import net.akehurst.application.framework.realisation.AbstractActiveObject;
-import net.akehurst.application.framework.realisation.AbstractComponent;
-import net.akehurst.application.framework.realisation.AbstractIdentifiableObject;
+import net.akehurst.application.framework.technology.interfaceFilesystem.IDirectory;
+import net.akehurst.application.framework.technology.interfaceFilesystem.IFilesystem;
 import net.akehurst.application.framework.technology.interfaceLogging.LogLevel;
+import net.akehurst.oak.computational.interfaceUser.IUserNotification;
+import net.akehurst.oak.computational.interfaceUser.IUserRequest;
+import net.akehurst.oak.computational.interfaceUser.WorkspaceDetails;
 
-public class ComandExecutor extends AbstractActiveObject implements ICommandExecutor {
+public class ComandExecutor extends AbstractActiveObject implements ICommandExecutor, IUserRequest {
 
-	public ComandExecutor(String id) {
+	public ComandExecutor(final String id) {
 		super(id);
 	}
 
-	
-	public void execute(CommandIdentity command) {
-		
-		super.logger.log(LogLevel.INFO, "Executing command "+command.asPrimitive()+" with arguments ");
-		
+	WorkspaceDetails currentWorkspace;
+
+	@Override
+	public void execute(final CommandIdentity command) {
+
+		super.logger.log(LogLevel.INFO, "Executing command " + command.asPrimitive() + " with arguments ");
+
 	}
 
+	@ServiceReference
+	IFilesystem fs;
 
 	@Override
 	public void afRun() {
-		// TODO Auto-generated method stub
-		
+
 	}
-	
+
+	@Override
+	public void afTerminate() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public final Property<IUserNotification> userNotification = new Property<>();
+
+	// --- IUserRequest ---
+
+	@Override
+	public void start() {
+		this.requestSwitchWorkspace(this.fs.directory(System.getProperty("user.dir")));
+	}
+
+	@Override
+	public void requestSwitchWorkspace(final IDirectory workspaceDirectory) {
+		this.currentWorkspace = new WorkspaceDetails(workspaceDirectory);
+		this.userNotification.get().notifyWorkspace(this.currentWorkspace);
+	}
+
+	@Override
+	public void requestExecuteCommand() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

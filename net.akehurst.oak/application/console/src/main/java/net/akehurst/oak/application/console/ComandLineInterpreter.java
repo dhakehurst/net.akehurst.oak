@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Dr. David H. Akehurst (http://dr.david.h.akehurst.net)
+ * Copyright (C) 2018 Dr. David H. Akehurst (http://dr.david.h.akehurst.net)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,42 +15,41 @@
  */
 package net.akehurst.oak.application.console;
 
-import java.util.Arrays;
 import java.util.List;
 
 import net.akehurst.application.framework.common.annotations.instance.CommandLineArgument;
 import net.akehurst.application.framework.common.annotations.instance.CommandLineGroup;
 import net.akehurst.application.framework.realisation.AbstractActiveObject;
-import net.akehurst.application.framework.realisation.AbstractComponent;
-import net.akehurst.application.framework.realisation.AbstractIdentifiableObject;
-import net.akehurst.application.framework.technology.interfaceLogging.LogLevel;
 import net.akehurst.oak.computational.core.CommandIdentity;
 import net.akehurst.oak.computational.core.ICommandExecutor;
 
 public class ComandLineInterpreter extends AbstractActiveObject {
 
-	public ComandLineInterpreter(String id) {
+	public ComandLineInterpreter(final String id) {
 		super(id);
 	}
 
-	@CommandLineGroup(name="build", description="")
-	@CommandLineGroup(name="install", description="")
-	@CommandLineGroup(name="publish", description="")
+	@CommandLineGroup(name = "build", description = "")
+	@CommandLineGroup(name = "install", description = "")
+	@CommandLineGroup(name = "publish", description = "")
 	List<String> commands;
-	
-	@CommandLineArgument(group="build", name="target", required=true, description="The target to build for.")
+
+	@CommandLineArgument(group = "build", name = "target", required = true, description = "The target to build for.")
 	String build_target;
-	
-	
+
 	@Override
 	public void afRun() {
-		for(String command: this.commands) {
+		for (final String command : this.commands) {
 			this.executor.execute(new CommandIdentity(command));
 		}
 	}
-	
-	ICommandExecutor executor;
-	
 
-	
+	ICommandExecutor executor;
+
+	@Override
+	public void afTerminate() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

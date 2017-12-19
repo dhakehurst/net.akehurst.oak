@@ -1,0 +1,10 @@
+application {
+
+  component Console console
+  component User2Console user2Console
+  component Greeter greeter
+
+  connect greeter[user] <-> user2Console[user]
+  connect user2Console[out] <-> console[stdout]
+
+}

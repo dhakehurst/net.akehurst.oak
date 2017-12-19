@@ -19,6 +19,6 @@ apply plugin: 'osgi'
 
 dependencies {
 
-
+	compile project(":${rootProject.name}.computational.interfaceUser")
 
 }

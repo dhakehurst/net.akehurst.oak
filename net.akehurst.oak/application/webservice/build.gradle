@@ -21,10 +21,23 @@ apply plugin: 'application'
 mainClassName = "net.akehurst.oak.application.webservice.OakWebserviceMain"
 
 dependencies {
+	// --- services
+	compile "${af}.service.configuration.file:${afVersion}"
 
-	compile "${afPrefix}.technology.gui.vertx:${afVersion}"
+    // --- computational
+	compile project(":${rootProject.name}.computational.core")
 
+    // --- engineering
 	compile project(":${rootProject.name}.engineering.gui.ide")
+	compile project(":${rootProject.name}.engineering.gui.web")
+	
+	compile "${af}.engineering.channel.authenticator:${afVersion}"
+
+   // --- technology
+	compile "${af}.technology.authentication.any:${afVersion}"
+	compile "${af}.technology.gui.vertx:${afVersion}"
+
+
 
 
 }

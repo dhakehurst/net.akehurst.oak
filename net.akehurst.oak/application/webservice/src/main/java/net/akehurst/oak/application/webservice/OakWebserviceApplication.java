@@ -18,37 +18,35 @@ package net.akehurst.oak.application.webservice;
 import net.akehurst.application.framework.common.annotations.instance.ComponentInstance;
 import net.akehurst.application.framework.common.annotations.instance.ServiceInstance;
 import net.akehurst.application.framework.realisation.AbstractApplication;
+import net.akehurst.application.framework.service.configuration.file.HJsonConfigurationService;
 import net.akehurst.application.framework.technology.filesystem.StandardFilesystem;
 import net.akehurst.application.framework.technology.gui.vertx.VertxWebsite;
 import net.akehurst.application.framework.technology.log4j.Log4JLogger;
-import net.akehurst.application.framework.technology.persistence.filesystem.HJsonFile;
 import net.akehurst.oak.engineering.gui.ide.GuiToTech;
 
 public class OakWebserviceApplication extends AbstractApplication {
 
-	public OakWebserviceApplication(String id, String[] args) {
-		super(id, args);
+	public OakWebserviceApplication(final String id) {
+		super(id);
 	}
 
 	@ServiceInstance
 	Log4JLogger logger;
-	
+
 	@ServiceInstance
 	StandardFilesystem fs;
-	
+
 	@ServiceInstance
-	HJsonFile configuration;
-	
-	
+	HJsonConfigurationService configuration;
+
 	@ComponentInstance
 	GuiToTech gui;
-	
+
 	@ComponentInstance
 	VertxWebsite vertx;
-	
-	
+
 	@Override
-	public void connectEngineeringToTechnology() {
-		this.gui.portTech().connect( this.vertx.portGui() );
+	public void afConnectParts() {
+		this.gui.portTech().connect(this.vertx.portGui());
 	}
 }
